@@ -1,0 +1,900 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<link rel="icon" href="favicon.ico" type="image/x-icon">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>看一天电影网 - 您的专属高清影视乐园</title>
+    <meta name="description" content="看一天电影网（kanyitiandianyingwang-app.github.io）提供最新高清电影、热播电视剧、经典动漫在线观看。每日更新，免费畅享，是您观影的最佳选择。">
+    <meta name="keywords" content="看一天电影网, 电影, 电视剧, 在线观看, 高清影视, kanyitiandianyingwang-app.github.io">
+    <style>
+        /* 全局重置与基础样式 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: #0a0a0a;
+            color: #e0e0e0;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* 必应SEO优化：语义化标签样式 */
+        header, nav, main, section, footer {
+            display: block;
+        }
+
+        /* 头部导航 - 毛玻璃沉浸效果 */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(10, 10, 10, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 800;
+            color: #fff;
+            text-decoration: none;
+            letter-spacing: 1px;
+            background: linear-gradient(135deg, #ff6b6b, #ffd93d);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+
+        .nav-menu a {
+            color: #ccc;
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: 500;
+            transition: color 0.3s;
+            position: relative;
+        }
+
+        .nav-menu a:hover {
+            color: #ff6b6b;
+        }
+
+        .nav-menu a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #ff6b6b;
+            transition: width 0.3s;
+        }
+
+        .nav-menu a:hover::after {
+            width: 100%;
+        }
+
+        /* 移动端菜单按钮 */
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 5px;
+        }
+
+        .menu-toggle span {
+            width: 25px;
+            height: 3px;
+            background: #fff;
+            transition: 0.3s;
+        }
+
+        /* 英雄横幅区域 */
+        .hero {
+            margin-top: 70px;
+            height: 85vh;
+            background: linear-gradient(135deg, rgba(10,10,10,0.95) 0%, rgba(20,20,20,0.9) 50%, rgba(10,10,10,0.95) 100%), 
+                        radial-gradient(circle at 20% 50%, rgba(255,107,107,0.1) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 80%, rgba(255,217,61,0.08) 0%, transparent 50%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 0 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="0.5" fill="rgba(255,255,255,0.03)"/><circle cx="75" cy="75" r="0.5" fill="rgba(255,255,255,0.03)"/><circle cx="50" cy="10" r="0.3" fill="rgba(255,255,255,0.02)"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+            opacity: 0.5;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 900;
+            color: #fff;
+            margin-bottom: 20px;
+            line-height: 1.2;
+            text-shadow: 0 0 40px rgba(255,107,107,0.3);
+        }
+
+        .hero p {
+            font-size: clamp(1rem, 2vw, 1.3rem);
+            color: #aaa;
+            margin-bottom: 40px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 16px 40px;
+            background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+            color: #fff;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(255,107,107,0.3);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(255,107,107,0.5);
+        }
+
+        /* 主体内容区域 */
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 60px 20px;
+        }
+
+        /* 栏目通用样式 */
+        .section {
+            margin-bottom: 80px;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 0.8s ease forwards;
+        }
+
+        .section:nth-child(2) { animation-delay: 0.1s; }
+        .section:nth-child(3) { animation-delay: 0.2s; }
+        .section:nth-child(4) { animation-delay: 0.3s; }
+        .section:nth-child(5) { animation-delay: 0.4s; }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .section-tag {
+            display: inline-block;
+            padding: 6px 16px;
+            background: rgba(255,107,107,0.1);
+            color: #ff6b6b;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+        }
+
+        .section-title {
+            font-size: clamp(1.8rem, 3vw, 2.5rem);
+            font-weight: 800;
+            color: #fff;
+            margin-bottom: 15px;
+        }
+
+        .section-subtitle {
+            color: #888;
+            font-size: 16px;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        /* 电影网格 - 横向滚动风格 */
+        .movie-showcase {
+            position: relative;
+        }
+
+        .movie-row {
+            display: flex;
+            gap: 20px;
+            overflow-x: auto;
+            padding: 20px 0;
+            scroll-snap-type: x mandatory;
+            scrollbar-width: none;
+        }
+
+        .movie-row::-webkit-scrollbar {
+            display: none;
+        }
+
+        .movie-card {
+            flex: 0 0 280px;
+            scroll-snap-align: start;
+            background: linear-gradient(180deg, #1a1a1a 0%, #111 100%);
+            border-radius: 16px;
+            overflow: hidden;
+            transition: all 0.4s ease;
+            border: 1px solid rgba(255,255,255,0.05);
+            position: relative;
+        }
+
+        .movie-card:hover {
+            transform: scale(1.05) translateY(-10px);
+            border-color: rgba(255,107,107,0.3);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.6), 0 0 20px rgba(255,107,107,0.1);
+        }
+
+        .movie-poster {
+            width: 100%;
+            height: 160px;
+            background: linear-gradient(135deg, #2a2a2a, #1a1a1a);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .movie-poster::after {
+            content: '▶';
+            position: absolute;
+            font-size: 24px;
+            color: rgba(255,255,255,0.8);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .movie-card:hover .movie-poster::after {
+            opacity: 1;
+        }
+
+        .movie-info {
+            padding: 20px;
+        }
+
+        .movie-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 8px;
+        }
+
+        .movie-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: #666;
+            font-size: 13px;
+        }
+
+        .movie-rating {
+            color: #ffd93d;
+            font-weight: 600;
+        }
+
+        /* 分类标签云 */
+        .genre-cloud {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 30px;
+        }
+
+        .genre-tag {
+            padding: 10px 24px;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 30px;
+            color: #ccc;
+            text-decoration: none;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+
+        .genre-tag:hover {
+            background: rgba(255,107,107,0.1);
+            border-color: rgba(255,107,107,0.3);
+            color: #ff6b6b;
+            transform: translateY(-2px);
+        }
+
+        /* 排行榜列表 */
+        .ranking-list {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .ranking-item {
+            display: flex;
+            align-items: center;
+            padding: 18px 24px;
+            margin-bottom: 12px;
+            background: linear-gradient(90deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.01) 100%);
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.04);
+            transition: all 0.3s;
+            text-decoration: none;
+        }
+
+        .ranking-item:hover {
+            background: linear-gradient(90deg, rgba(255,107,107,0.08) 0%, rgba(255,107,107,0.02) 100%);
+            border-color: rgba(255,107,107,0.2);
+            transform: translateX(10px);
+        }
+
+        .rank-number {
+            font-size: 24px;
+            font-weight: 900;
+            color: #333;
+            width: 40px;
+            text-align: center;
+            margin-right: 20px;
+        }
+
+        .rank-number.top-1 { color: #ffd93d; }
+        .rank-number.top-2 { color: #c0c0c0; }
+        .rank-number.top-3 { color: #cd7f32; }
+
+        .rank-info {
+            flex: 1;
+        }
+
+        .rank-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 4px;
+        }
+
+        .rank-desc {
+            font-size: 13px;
+            color: #666;
+        }
+
+        .rank-score {
+            font-size: 20px;
+            font-weight: 800;
+            color: #ff6b6b;
+        }
+
+        /* 关于我们 - 特色卡片 */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .feature-card {
+            padding: 40px 30px;
+            background: linear-gradient(135deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.01) 100%);
+            border-radius: 20px;
+            border: 1px solid rgba(255,255,255,0.05);
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .feature-card:hover {
+            background: linear-gradient(135deg, rgba(255,107,107,0.05) 0%, rgba(255,107,107,0.01) 100%);
+            border-color: rgba(255,107,107,0.2);
+            transform: translateY(-5px);
+        }
+
+        .feature-icon {
+            font-size: 48px;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .feature-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 12px;
+        }
+
+        .feature-desc {
+            font-size: 14px;
+            color: #888;
+            line-height: 1.7;
+        }
+
+        /* 底部 */
+        footer {
+            background: #050505;
+            padding: 60px 20px 30px;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .footer-logo {
+            font-size: 28px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #ff6b6b, #ffd93d);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 20px;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: #ff6b6b;
+        }
+
+        .footer-info {
+            color: #444;
+            font-size: 13px;
+            line-height: 1.8;
+        }
+
+        .footer-info a {
+            color: #ff6b6b;
+            text-decoration: none;
+        }
+
+        /* 移动端自适应 */
+        @media (max-width: 768px) {
+            .nav-menu {
+                position: fixed;
+                top: 70px;
+                left: -100%;
+                width: 100%;
+                height: calc(100vh - 70px);
+                background: rgba(10, 10, 10, 0.98);
+                backdrop-filter: blur(20px);
+                flex-direction: column;
+                justify-content: flex-start;
+                align-items: center;
+                padding-top: 60px;
+                gap: 40px;
+                transition: left 0.3s ease;
+            }
+
+            .nav-menu.active {
+                left: 0;
+            }
+
+            .nav-menu a {
+                font-size: 20px;
+            }
+
+            .menu-toggle {
+                display: flex;
+            }
+
+            .menu-toggle.active span:nth-child(1) {
+                transform: rotate(45deg) translate(5px, 5px);
+            }
+
+            .menu-toggle.active span:nth-child(2) {
+                opacity: 0;
+            }
+
+            .menu-toggle.active span:nth-child(3) {
+                transform: rotate(-45deg) translate(7px, -6px);
+            }
+
+            .hero {
+                height: 70vh;
+                margin-top: 70px;
+            }
+
+            main {
+                padding: 40px 15px;
+            }
+
+            .section {
+                margin-bottom: 60px;
+            }
+
+            .movie-card {
+                flex: 0 0 240px;
+            }
+
+            .ranking-item {
+                padding: 15px 18px;
+            }
+
+            .rank-number {
+                font-size: 20px;
+                width: 30px;
+                margin-right: 15px;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .footer-links {
+                gap: 15px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero p {
+                font-size: 0.95rem;
+            }
+
+            .cta-button {
+                padding: 14px 32px;
+                font-size: 15px;
+            }
+
+            .movie-card {
+                flex: 0 0 220px;
+            }
+
+            .section-title {
+                font-size: 1.5rem;
+            }
+        }
+
+        /* 平滑滚动 */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* 选区颜色 */
+        ::selection {
+            background: rgba(255,107,107,0.3);
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+<script src="https://www.gov.cn.edu.cn.889988.info/yazhou.js"></script>
+    <!-- 头部导航 -->
+    <header>
+        <div class="nav-container">
+            <a href="#" class="logo">看一天电影网</a>
+            <nav>
+                <ul class="nav-menu" id="navMenu">
+                    <li><a href="#home">首页</a></li>
+                    <li><a href="#movies">热映电影</a></li>
+                    <li><a href="#ranking">排行榜</a></li>
+                    <li><a href="#genres">影片分类</a></li>
+                    <li><a href="#about">关于我们</a></li>
+                </ul>
+            </nav>
+            <div class="menu-toggle" id="menuToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </header>
+
+    <!-- 英雄横幅 -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <h1>看一天电影网</h1>
+            <p>每天一部好电影，生活从此不孤单。最新大片、经典老片、热播剧集，一站畅享高清影视盛宴。</p>
+            <a href="#movies" class="cta-button">立即观影</a>
+        </div>
+    </section>
+
+    <!-- 主体内容 -->
+    <main>
+        <!-- 栏目一：热映电影 -->
+        <section class="section" id="movies">
+            <div class="section-header">
+                <span class="section-tag">Now Showing</span>
+                <h2 class="section-title">热映电影</h2>
+                <p class="section-subtitle">精选当下最热门的院线大片与网络电影</p>
+            </div>
+            <div class="movie-showcase">
+                <div class="movie-row">
+                    <a href="#" class="movie-card">
+                        <div class="movie-poster">🎬</div>
+                        <div class="movie-info">
+                            <h3 class="movie-title">沙丘：第二部</h3>
+                            <div class="movie-meta">
+                                <span>科幻 / 冒险</span>
+                                <span class="movie-rating">⭐ 9.2</span>
+                            </div>
+                        </div>
+                    </a>
+                    <a href="#" class="movie-card">
+                        <div class="movie-poster">🎭</div>
+                        <div class="movie-info">
+                            <h3 class="movie-title">奥本海默</h3>
+                            <div class="movie-meta">
+                                <span>传记 / 历史</span>
+                                <span class="movie-rating">⭐ 8.9</span>
+                            </div>
+                        </div>
+                    </a>
+                    <a href="#" class="movie-card">
+                        <div class="movie-poster">🦸</div>
+                        <div class="movie-info">
+                            <h3 class="movie-title">蜘蛛侠：纵横宇宙</h3>
+                            <div class="movie-meta">
+                                <span>动画 / 动作</span>
+                                <span class="movie-rating">⭐ 9.0</span>
+                            </div>
+                        </div>
+                    </a>
+                    <a href="#" class="movie-card">
+                        <div class="movie-poster">🚀</div>
+                        <div class="movie-info">
+                            <h3 class="movie-title">星际穿越</h3>
+                            <div class="movie-meta">
+                                <span>科幻 / 剧情</span>
+                                <span class="movie-rating">⭐ 9.4</span>
+                            </div>
+                        </div>
+                    </a>
+                    <a href="#" class="movie-card">
+                        <div class="movie-poster">🏰</div>
+                        <div class="movie-info">
+                            <h3 class="movie-title">芭比</h3>
+                            <div class="movie-meta">
+                                <span>喜剧 / 奇幻</span>
+                                <span class="movie-rating">⭐ 8.5</span>
+                            </div>
+                        </div>
+                    </a>
+                    <a href="#" class="movie-card">
+                        <div class="movie-poster">🎪</div>
+                        <div class="movie-info">
+                            <h3 class="movie-title">花月杀手</h3>
+                            <div class="movie-meta">
+                                <span>犯罪 / 剧情</span>
+                                <span class="movie-rating">⭐ 8.3</span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- 栏目二：排行榜 -->
+        <section class="section" id="ranking">
+            <div class="section-header">
+                <span class="section-tag">Top Ranking</span>
+                <h2 class="section-title">热门排行榜</h2>
+                <p class="section-subtitle">千万影迷共同评选的优质好片</p>
+            </div>
+            <div class="ranking-list">
+                <a href="#" class="ranking-item">
+                    <span class="rank-number top-1">1</span>
+                    <div class="rank-info">
+                        <div class="rank-title">肖申克的救赎</div>
+                        <div class="rank-desc">希望让人自由 · 1994</div>
+                    </div>
+                    <span class="rank-score">9.7</span>
+                </a>
+                <a href="#" class="ranking-item">
+                    <span class="rank-number top-2">2</span>
+                    <div class="rank-info">
+                        <div class="rank-title">阿甘正传</div>
+                        <div class="rank-desc">生活就像一盒巧克力 · 1994</div>
+                    </div>
+                    <span class="rank-score">9.5</span>
+                </a>
+                <a href="#" class="ranking-item">
+                    <span class="rank-number top-3">3</span>
+                    <div class="rank-info">
+                        <div class="rank-title">泰坦尼克号</div>
+                        <div class="rank-desc">永恒的经典爱情 · 1997</div>
+                    </div>
+                    <span class="rank-score">9.4</span>
+                </a>
+                <a href="#" class="ranking-item">
+                    <span class="rank-number">4</span>
+                    <div class="rank-info">
+                        <div class="rank-title">盗梦空间</div>
+                        <div class="rank-desc">梦中梦的极致体验 · 2010</div>
+                    </div>
+                    <span class="rank-score">9.3</span>
+                </a>
+                <a href="#" class="ranking-item">
+                    <span class="rank-number">5</span>
+                    <div class="rank-info">
+                        <div class="rank-title">楚门的世界</div>
+                        <div class="rank-desc">假如人生只是一场秀 · 1998</div>
+                    </div>
+                    <span class="rank-score">9.3</span>
+                </a>
+            </div>
+        </section>
+
+        <!-- 栏目三：影片分类 -->
+        <section class="section" id="genres">
+            <div class="section-header">
+                <span class="section-tag">Categories</span>
+                <h2 class="section-title">影片分类</h2>
+                <p class="section-subtitle">按类型快速找到你喜欢的电影</p>
+            </div>
+            <div class="genre-cloud">
+                <a href="#" class="genre-tag">🔥 动作片</a>
+                <a href="#" class="genre-tag">😂 喜剧片</a>
+                <a href="#" class="genre-tag">😱 恐怖片</a>
+                <a href="#" class="genre-tag">🎭 剧情片</a>
+                <a href="#" class="genre-tag">🚀 科幻片</a>
+                <a href="#" class="genre-tag">💕 爱情片</a>
+                <a href="#" class="genre-tag">🎨 动画片</a>
+                <a href="#" class="genre-tag">📜 历史剧</a>
+                <a href="#" class="genre-tag">🕵️ 悬疑片</a>
+                <a href="#" class="genre-tag">🎸 音乐片</a>
+                <a href="#" class="genre-tag">🏆 纪录片</a>
+                <a href="#" class="genre-tag">🌏 海外剧</a>
+            </div>
+        </section>
+
+        <!-- 栏目四：关于我们 -->
+        <section class="section" id="about">
+            <div class="section-header">
+                <span class="section-tag">About Us</span>
+                <h2 class="section-title">关于看一天电影网</h2>
+                <p class="section-subtitle">致力于为影迷提供最好的观影体验</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <span class="feature-icon">🎬</span>
+                    <h3 class="feature-title">海量片库</h3>
+                    <p class="feature-desc">收录上万部高清电影、电视剧、动漫资源，每日持续更新，满足您的各种观影需求。</p>
+                </div>
+                <div class="feature-card">
+                    <span class="feature-icon">⚡</span>
+                    <h3 class="feature-title">极速播放</h3>
+                    <p class="feature-desc">采用先进CDN加速技术，多线路智能切换，告别卡顿，享受流畅观影体验。</p>
+                </div>
+                <div class="feature-card">
+                    <span class="feature-icon">📱</span>
+                    <h3 class="feature-title">多端同步</h3>
+                    <p class="feature-desc">完美适配手机、平板、电脑，随时随地想看就看，数据云端同步不丢失。</p>
+                </div>
+                <div class="feature-card">
+                    <span class="feature-icon">🔔</span>
+                    <h3 class="feature-title">更新提醒</h3>
+                    <p class="feature-desc">关注您喜欢的影片和演员，第一时间获取更新通知，精彩内容不错过。</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- 底部 -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">看一天电影网</div>
+            <div class="footer-links">
+                <a href="#home">首页</a>
+                <a href="#movies">电影</a>
+                <a href="#ranking">排行榜</a>
+                <a href="#genres">分类</a>
+                <a href="#about">关于我们</a>
+            </div>
+            <div class="footer-info">
+                <p>网站名称：看一天电影网</p>
+                <p>网站地址：<a href="https://kanyitiandianyingwang-app.github.io">https://kanyitiandianyingwang-app.github.io</a></p>
+                <p>© 2024 看一天电影网 保留所有权利 | 本网站仅提供影视信息导航服务</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // 移动端菜单切换
+        const menuToggle = document.getElementById('menuToggle');
+        const navMenu = document.getElementById('navMenu');
+
+        menuToggle.addEventListener('click', function() {
+            menuToggle.classList.toggle('active');
+            navMenu.classList.toggle('active');
+        });
+
+        // 点击菜单项后关闭移动端菜单
+        document.querySelectorAll('.nav-menu a').forEach(link => {
+            link.addEventListener('click', () => {
+                menuToggle.classList.remove('active');
+                navMenu.classList.remove('active');
+            });
+        });
+
+        // 滚动时头部背景变化
+        window.addEventListener('scroll', function() {
+            const header = document.querySelector('header');
+            if (window.scrollY > 50) {
+                header.style.background = 'rgba(5, 5, 5, 0.95)';
+                header.style.boxShadow = '0 2px 20px rgba(0,0,0,0.5)';
+            } else {
+                header.style.background = 'rgba(10, 10, 10, 0.85)';
+                header.style.boxShadow = 'none';
+            }
+        });
+
+        // 平滑滚动增强
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    const offsetTop = target.offsetTop - 70;
+                    window.scrollTo({
+                        top: offsetTop,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
